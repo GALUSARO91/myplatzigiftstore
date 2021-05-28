@@ -1,4 +1,5 @@
 import {registerBlockType} from '@wordpress/blocks';
+import {TextControl} from '@wordpress/components';
 
 registerBlockType(
     'pg/basic',
@@ -7,7 +8,24 @@ registerBlockType(
         description: "Este es nuestro primer bloque",
         icon: "smiley",
         category: "layout",
-        edit: () => <h2>Hello WOrld</h2>,
-        save: () => <h2>Hello WOrld</h2>,
+        attributes: {
+            content: {
+                type: "string",
+                default: "Hello World"
+            }
+        },
+        edit: (props) =>{
+             const {attributes: {content}, setAttributes, className, isSelected} = props;
+             const handlerOnChangeInput = (newContent) => {
+                 setAttributes({content: newContent})
+             }
+             return <TextControl
+                label = "complete el campo"
+                value = {content}
+                onChange = {handlerOnChangeInput}
+             />
+            },
+            
+        save: (props) => <h2>{props.attributes.content}</h2>,
     }
 )
