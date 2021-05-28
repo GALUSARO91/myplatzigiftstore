@@ -11,9 +11,15 @@
                     <div class="col-6">
                         <?php the_post_thumbnail('large'); ?>
                     </div>
+                    
                     <div class="col-6">
+                        <?php echo do_shortcode('[contact-form-7 id="41" title="Formulario de contacto 1"]'); ?>
+                    </div>
+                    
+                    <div class="col-12">
                         <?php the_content(); ?>
                     </div>
+
                 </div>
             <?php 
             
