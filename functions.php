@@ -188,9 +188,76 @@ function pedidoNovedades($data){
 
 function pgRegisterBlock(){
    $assets = include_once get_template_directory().'/blocks/build/index.asset.php';
-   wp_register_script('pg-block', get_template_directory_uri().'/blocks/build/index.js',$assets['dependencies'],$assets['version']);
-   register_block_type('pg/basic',['editor_script'=> 'pg-block']);
+   wp_register_script('pg-block',
+    get_template_directory_uri().'/blocks/build/index.js',
+    $assets['dependencies'],
+    $assets['version']
+);
+   register_block_type('pg/basic',
+   [
+       'editor_script'=> 'pg-block',
+       'attributes' => [
+           'content' => [
+               'type' => 'string',
+               'default' => 'Hello World'
+           ],
+           'mediaURL' => [
+            'type' => 'string'
+           ],
+           'mediaAlt' => [
+            'type' => 'string'
+           ],
+           ],
+           
+       'render_callback' => 'pgRenderDynamicBlock'
+       ]);
+
+      
 
 }
 
 add_action('init','pgRegisterBlock');
+
+
+function pgRenderDynamicBlock($attributes,$content){
+
+    return ('<h1 class="my-3">'.$attributes['content'].'</h1>
+    <img src="'.$attributes['mediaURL'].'" alt="'.$attributes['mediaAlt'].'" />
+    <hr>');
+
+}
+
+
+add_action('acf/init', 'acfRegister_blocks');
+
+function acfRegister_blocks(){
+    acf_register_block(
+        [
+            'name' => 'pgInstitucional',
+            'title' => 'Institucional',
+            'description' => '',
+            'render_template' => get_template_directory().'/template-parts/institucional.php',
+            'category' => 'layout',
+            'icon' => 'smiley',
+            'mode' => 'edit'
+
+        ]
+    );
+}
+
+add_action('acf/init', 'acfRegister_contactform');
+
+function acfRegister_contactform(){
+    acf_register_block(
+        [
+            'name' => 'pgContacto',
+            'title' => 'Contacto',
+            'description' => '',
+            'render_template' => get_template_directory().'/template-parts/contact_form.php',
+            'category' => 'layout',
+            'icon' => 'smiley',
+            'mode' => 'edit'
+
+        ]
+    );
+}

@@ -1,2 +1,4 @@
 *.png
 /blocks/node_modules
+platzigift.code-workspace
+/.vscode
